@@ -1,0 +1,39 @@
+name: Test Cert
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    strategy:
+      matrix:
+        configuration: [Release]
+        platform: [x64]
+
+    runs-on: windows-latest  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
+    env:
+      Solution_Name: OMDb.sln                         # Replace with your solution name, i.e. App1.sln.
+
+    steps:
+    - name: Decode the pfx
+      run: |
+        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
+        $certificatePath = "GitHubActionsWorkflow.pfx"
+        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+
+    # Create the app package by building and packaging the project  (Sign: /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx)
+    - name: Check files
+      run: tree /F
+
+    # Remove the pfx
+    - name: Remove the pfx
+      run: Remove-Item -path GitHubActionsWorkflow.pfx
+
+    
