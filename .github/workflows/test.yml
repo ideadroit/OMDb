@@ -30,7 +30,7 @@ jobs:
 
     # Create the app package by building and packaging the project  (Sign: /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx)
     - name: Check files
-      run: tree /F
+      run: tree /F && ll GitHubActionsWorkflow.pfx
 
     # Remove the pfx
     - name: Remove the pfx
