@@ -28,7 +28,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: pass
+        ref: 4e941e44cbf727ed98412aa37158e027f12aed72
 
     # Install the .NET Core workload
     - name: Install .NET Core
